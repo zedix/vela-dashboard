@@ -7,8 +7,9 @@ import {
   type ManufacturingOrder,
   type OrderStatus,
 } from '../../core/models/order.model';
-import { OrdersStore } from '../../core/store/orders-store';
+import { MARGIN_HISTORY_CAPACITY, OrdersStore } from '../../core/store/orders-store';
 import { formatRate, formatSignedPrice } from '@shared/utils';
+import { MarginChart } from './margin-chart/margin-chart';
 import { OrderDetail } from './order-detail/order-detail';
 import { StatCard } from './stat-card';
 import { StatusBadge } from './status-badge';
@@ -48,7 +49,7 @@ const COLUMNS: readonly Column[] = [
   selector: 'vela-orders',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
-  imports: [OrderDetail, StatCard, StatusBadge],
+  imports: [MarginChart, OrderDetail, StatCard, StatusBadge],
   templateUrl: './orders.html',
   styleUrl: './orders.css',
 })
@@ -58,6 +59,9 @@ export class Orders {
   protected readonly columns = COLUMNS;
   protected readonly statuses = ORDER_STATUSES;
   protected readonly statusLabels = STATUS_LABELS;
+
+  /** Chart window = the store's ring-buffer cap (single source of truth). */
+  protected readonly marginCapacity = MARGIN_HISTORY_CAPACITY;
 
   protected readonly rows = computed<readonly OrderRow[]>(() =>
     this.store.visibleOrders().map((order) => ({ order, margin: computeMargin(order) })),

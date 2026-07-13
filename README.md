@@ -9,7 +9,7 @@
 Fullstack Engineer case study: a **real-time** P&L dashboard for a factory's
 manufacturing orders (French: « ordres de fabrication », OF) — simulated feed
 (50 orders + one event every 500ms–2s), live aggregates, filtering, sorting,
-order detail. No backend: everything is simulated
+order detail, margin sparkline. No backend: everything is simulated
 client-side behind a WebSocket-shaped service.
 
 Docs: **[Architecture & trade-offs](docs/architecture.md)** ·
@@ -58,6 +58,8 @@ The structuring choices, in one line each — full rationale and trade-offs in
   idempotent upserts by id; swapping in a real WebSocket touches one service.
 - **Detail = native `<dialog>`** driven by `store.selectedOrder()` (derived by
   id → keeps updating live); ~1s row highlight via per-id reset-able timers.
+- **Bonus chart**: hand-made SVG sparkline — one `<path>`, only its `d`
+  rewritten per event, sliding window = the ring buffer itself.
 - **Hand-made UI**: a small self-contained design system (`ui/` — tokens,
   primitives) bridged to Tailwind v4 utilities via `@theme` — see
   [docs/ui.md](docs/ui.md).

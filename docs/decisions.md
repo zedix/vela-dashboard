@@ -339,7 +339,7 @@ alternatives, and why, in a few lines.
 - **Choice**: inside a feature, a component gets **its folder** as soon as it has
   **multiple files**; a single-file leaf stays flat. `features/orders/`:
   `orders.{ts,html,css}` (feature root), `status-badge.ts` (shared leaf, flat),
-  `order-detail/` (panel + `order-detail-row.ts`,
+  `margin-chart/` (3 files → folder), `order-detail/` (panel + `order-detail-row.ts`,
   nested with its only consumer).
 - **Why**: modern Angular guidance (folder when multiple files) + the repo's
   anti-over-folding stance. **Deliberate contrast with `ui/`**, which folds everything
@@ -357,7 +357,7 @@ alternatives, and why, in a few lines.
   (`+72 000 €`), and `Intl` does it via `signDisplay: 'exceptZero'`. (2) **No locale
   ceremony** — the pipes need `LOCALE_ID` + `registerLocaleData`, or format en-US
   silently; `Intl.NumberFormat` uses the runtime ICU. (3) **Usable outside templates**
-  — pure functions work in TS and are testable without Angular.
+  — pure functions work in TS (the chart header) and are testable without Angular.
 - **Concession**: `PercentPipe` alone would cover `formatRate`, but fragmenting would
   be inconsistent (and still need the locale registered).
 
@@ -389,7 +389,7 @@ alternatives, and why, in a few lines.
   testing it would need TestBed + a feed mock to re-verify what the domain tests
   cover, and would test the Angular wiring the brief says not to cover. What the store
   leaves untested is deliberate: the `apply → visibleOrders` seam is a one-line
-  idempotent upsert into an already-tested chain; the highlight timers' real risk (the leak) is closed by
+  idempotent upsert into an already-tested chain; the ring-buffer cap is bonus-chart math verified at runtime; the highlight timers' real risk (the leak) is closed by
   construction. If the store gained its own business logic (optimistic updates, undo),
   that would earn tests.
 
@@ -397,7 +397,7 @@ alternatives, and why, in a few lines.
 
 - **Choice**: every UI piece was verified in the browser with measurable proof — a
   filter recomputing the aggregates, a margin sort checked on displayed values, the
-  highlight sampled on the `.updated` rows, the drawer showing post-event values.
+  highlight sampled on the `.updated` rows, the drawer showing post-event values, the chart's `<path>` staying the same DOM node while only its `d` attribute changes.
 - **Why**: green build + green tests prove neither smoothness nor the absence of a
   full redraw — the brief's perf requirements only test at runtime. A method that
   _demonstrates_ rather than asserts.
@@ -535,3 +535,31 @@ alternatives, and why, in a few lines.
   intended** — the real dev risk is a bug in `apply()`; unhandled, it surfaces loudly
   (console / `ErrorHandler`), whereas a token `error:` handler would swallow it and
   freeze the feed silently.
+
+---
+
+## 8. Bonus — total-margin chart
+
+### 8.1 Hand-made SVG, zero library (no Chart.js/ECharts/ngx-charts/D3)
+
+- **Choice**: a hand-made SVG sparkline (~80 lines) — a `<path>` whose `d` is a
+  `computed` over the store's ring buffer of points.
+- **Alternatives**: ngx-charts (aging, v22-uncertain); ECharts (~1 MB for one line);
+  Chart.js (canvas — every `update()` repaints the whole canvas, so the "incremental
+  update" can't be shown); partial D3 (fine, but the math is 10 lines here).
+- **Why**: the brief's attention point ("no full redraw") becomes **provable** — the
+  `<path>` is created once, each event rewrites only one attribute (verified: same DOM
+  node after 5 events, only `d` changed). Same doctrine as the rest: signal → computed
+  → binding.
+- **Trade-off**: no free tooltips/zoom/legend — right for a sparkline; a richer need
+  would pick ECharts, and the boundary (a dumb component receiving points) wouldn't
+  move.
+
+### 8.2 The sliding window is the data structure
+
+- **Choice**: `_marginHistory` in the store — a signal ring buffer capped at 120 points
+  (`slice(-N)` on insert), fed in `apply()` with the total margin of **all** orders (not
+  the filtered view, so the history doesn't rewrite when filtering).
+- **Why it's state, not a `computed`**: a temporal accumulation isn't derivable from
+  current state. The x-axis uses a **fixed** step (width / capacity, bound to the
+  store's cap): the line grows rightward, then slides once the window is full.

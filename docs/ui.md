@@ -51,7 +51,7 @@ in Angular + Tailwind is not "all utilities":
   `rounded-md`, `p-4`… all resolve to `var(--v-*)`. `inline` is deliberate:
   the utility references the variable at the use-site instead of freezing the
   value, so `light-dark()` still resolves per scheme.
-- **Feature layer** (app shell, orders table/stats/filters, detail
+- **Feature layer** (app shell, orders table/stats/filters, chart + detail
   layout): utility classes in the templates; host-level layout via
   `host: { class: '…' }`, never a wrapper element.
 - **Primitives** keep their own CSS for what utilities express poorly:

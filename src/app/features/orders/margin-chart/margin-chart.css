@@ -1,0 +1,22 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Margin chart — SVG-only styles (fill/stroke)
+   The card layout is utility-first in the component host + template.
+   ────────────────────────────────────────────────────────────────────── */
+
+.area {
+  fill: color-mix(in oklab, var(--v-color-bg-fill-info-strong) 18%, transparent);
+  stroke: none;
+}
+
+.line {
+  fill: none;
+  stroke: var(--v-color-bg-fill-info-strong);
+  stroke-width: 1.6;
+}
+
+.zero {
+  stroke: var(--v-color-text-secondary);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  opacity: 0.5;
+}

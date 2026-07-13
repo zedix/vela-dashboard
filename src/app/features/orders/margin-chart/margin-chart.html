@@ -1,0 +1,37 @@
+<header class="mb-2 flex items-baseline justify-between gap-3">
+  <p class="m-0 text-xs uppercase tracking-[0.05em] text-secondary">
+    Marge totale — évolution au fil des événements
+  </p>
+  <p
+    class="m-0 text-lg font-semibold tabular-nums"
+    [class.text-success]="current() >= 0"
+    [class.text-danger]="current() < 0"
+  >
+    {{ formatSignedPrice(current()) }}
+  </p>
+</header>
+
+<svg
+  class="block h-[72px] w-full"
+  [attr.viewBox]="'0 0 ' + WIDTH + ' ' + HEIGHT"
+  preserveAspectRatio="none"
+  role="img"
+  aria-label="Évolution de la marge totale"
+>
+  <path class="area" [attr.d]="areaPath()" />
+  <path class="line" [attr.d]="linePath()" vector-effect="non-scaling-stroke" />
+  @if (zeroY() !== null) {
+    <line
+      class="zero"
+      x1="0"
+      [attr.x2]="WIDTH"
+      [attr.y1]="zeroY()"
+      [attr.y2]="zeroY()"
+      vector-effect="non-scaling-stroke"
+    />
+  }
+</svg>
+
+<p class="mt-1.5 text-xs text-secondary">
+  Fenêtre glissante : {{ capacity() }} derniers événements.
+</p>

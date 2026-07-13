@@ -16,7 +16,7 @@
 │   └── 🗂 store        ← OrdersStore: signal state + computed chain
 ├── 🗂 ui               ← self-contained mini design system (tokens, primitives, @theme bridge)
 ├── 🗂 features
-│   └── 🗂 orders       ← table, filters, aggregates, <dialog> detail, status badge
+│   └── 🗂 orders       ← table, filters, aggregates, <dialog> detail, status badge, chart
 └── 🗂 shared
     └── 🗂 utils        ← format.ts (Intl) + strings.ts + random.ts, barrel (@shared/utils)
 ```
@@ -71,6 +71,16 @@ core/stream/                       core/store/                 features/orders/
   alone opens/closes the dialog, so it can never desync from the selection.
   _Trade-off_: no shareable URL to an order (a `/of/:id` route would allow it)
   — accepted: the user keeps the table context.
+- **Bonus chart: hand-made SVG, zero dependency** (`MarginChart`): the
+  total-margin sparkline is one `<path>` whose `d` attribute is a `computed`
+  over the store's bounded ring buffer (120 points, global margin — the
+  history must not rewrite itself when filters change). The brief's attention
+  point is answered structurally: the path element is created **once**, each
+  event only rewrites one attribute — verified live (same DOM node instance
+  across events). The sliding window IS the data structure (`slice(-N)` on
+  append); a fixed per-point x-step makes the line grow, then slide.
+  _Trade-off_: no free tooltips/zoom — for rich interactions a lib (ECharts)
+  would win, behind the same dumb-component boundary.
 
 ## Naming conventions
 

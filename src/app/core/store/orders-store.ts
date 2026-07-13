@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   computeAggregates,
+  computeMargin,
   filterOrders,
   NO_FILTER,
   sortOrders,
@@ -41,6 +42,9 @@ import { OrdersFeed } from '../stream/orders-feed';
 /** How long a row stays flagged as "just updated" (brief: ~1s). */
 const HIGHLIGHT_MS = 1_000;
 
+/** Sliding window of the margin chart: number of points kept. */
+export const MARGIN_HISTORY_CAPACITY = 120;
+
 @Injectable({ providedIn: 'root' })
 export class OrdersStore {
   private readonly stream = inject(OrdersFeed);
@@ -64,11 +68,20 @@ export class OrdersStore {
   private readonly _recentlyUpdated = signal<ReadonlySet<string>>(new Set());
   private readonly highlightTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
+  /**
+   * Total margin (over ALL orders, not the filtered view — the history must
+   * not rewrite itself when the user plays with filters) sampled after each
+   * stream event. Temporal accumulation → state, not a computed. Bounded ring
+   * buffer: the slice IS the sliding window.
+   */
+  private readonly _marginHistory = signal<readonly number[]>([]);
+
   // --- Public read-only state --------------------------------------------
 
   readonly filter = this._filter.asReadonly();
   readonly sort = this._sort.asReadonly();
   readonly recentlyUpdated = this._recentlyUpdated.asReadonly();
+  readonly marginHistory = this._marginHistory.asReadonly();
 
   // --- Derivations (pure domain functions composed in computeds) ---------
 
@@ -92,6 +105,8 @@ export class OrdersStore {
   });
 
   constructor() {
+    this.pushMarginPoint(); // starting point of the chart
+
     // The one seam: events flow in here and nowhere else.
     this.stream.events$.pipe(takeUntilDestroyed()).subscribe((event) => this.apply(event));
 
@@ -135,6 +150,20 @@ export class OrdersStore {
   private apply(event: OrderEvent): void {
     this._orders.update((orders) => new Map(orders).set(event.order.id, event.order));
     this.markRecentlyUpdated(event.order.id);
+    this.pushMarginPoint();
+  }
+
+  /** Samples the global total margin into the bounded history. */
+  private pushMarginPoint(): void {
+    let total = 0;
+    for (const order of this._orders().values()) total += computeMargin(order);
+
+    this._marginHistory.update((points) => {
+      const next = [...points, total];
+      return next.length > MARGIN_HISTORY_CAPACITY
+        ? next.slice(next.length - MARGIN_HISTORY_CAPACITY)
+        : next;
+    });
   }
 
   /** Flags an id for ~1s; a repeat update on the same id resets its timer. */
