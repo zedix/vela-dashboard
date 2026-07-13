@@ -9,6 +9,7 @@ import {
 } from '../../core/models/order.model';
 import { OrdersStore } from '../../core/store/orders-store';
 import { formatRate, formatSignedPrice } from '@shared/utils';
+import { StatCard } from './stat-card';
 import { StatusBadge } from './status-badge';
 
 /** Row view-model: margin is computed once per row, in one place. */
@@ -46,7 +47,7 @@ const COLUMNS: readonly Column[] = [
   selector: 'vela-orders',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
-  imports: [StatusBadge],
+  imports: [StatCard, StatusBadge],
   templateUrl: './orders.html',
   styleUrl: './orders.css',
 })

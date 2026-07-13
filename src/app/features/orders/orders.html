@@ -8,24 +8,15 @@
 <!-- Aggregates over the FILTERED list (@let: one read, template-local) -->
 @let agg = store.aggregates();
 <section class="mb-4 grid grid-cols-3 gap-4" aria-label="Agrégats">
-  <figure class="m-0 rounded-xl border border-default bg-surface-raised px-4 py-3.5">
-    <figcaption class="text-xs uppercase tracking-[0.05em] text-secondary">Marge totale</figcaption>
-    <p class="mt-1 text-2xl font-semibold tabular-nums">
-      <span [class.text-success]="agg.totalMargin >= 0" [class.text-danger]="agg.totalMargin < 0">{{
-        formatSignedPrice(agg.totalMargin)
-      }}</span>
-    </p>
-  </figure>
-  <figure class="m-0 rounded-xl border border-default bg-surface-raised px-4 py-3.5">
-    <figcaption class="text-xs uppercase tracking-[0.05em] text-secondary">OF en cours</figcaption>
-    <p class="mt-1 text-2xl font-semibold tabular-nums">{{ agg.inProgressCount }}</p>
-  </figure>
-  <figure class="m-0 rounded-xl border border-default bg-surface-raised px-4 py-3.5">
-    <figcaption class="text-xs uppercase tracking-[0.05em] text-secondary">
-      Taux de rebut moyen
-    </figcaption>
-    <p class="mt-1 text-2xl font-semibold tabular-nums">{{ formatRate(agg.averageScrapRate) }}</p>
-  </figure>
+  <vela-stat-card label="Marge totale">
+    <span [class.text-success]="agg.totalMargin >= 0" [class.text-danger]="agg.totalMargin < 0">{{
+      formatSignedPrice(agg.totalMargin)
+    }}</span>
+  </vela-stat-card>
+  <vela-stat-card label="OF en cours">{{ agg.inProgressCount }}</vela-stat-card>
+  <vela-stat-card label="Taux de rebut moyen">{{
+    formatRate(agg.averageScrapRate)
+  }}</vela-stat-card>
 </section>
 
 <section class="mb-3 flex items-center gap-2.5" aria-label="Filtres">
