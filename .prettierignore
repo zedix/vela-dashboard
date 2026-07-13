@@ -1,0 +1,5 @@
+# npm lockfile — not ours to reformat
+package-lock.json
+
+# Build output
+/dist

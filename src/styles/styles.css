@@ -1,0 +1,21 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Global stylesheet — the single entry point (angular.json).
+   Minimal for now; it grows into the token + Tailwind cascade as the
+   design system lands.
+   ────────────────────────────────────────────────────────────────────── */
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
