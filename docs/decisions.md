@@ -449,18 +449,6 @@ alternatives, and why, in a few lines.
 - **Badges**: static only — the CI badge is dynamic and added only once the workflow
   runs on the remote (a badge that 404s is worse than none).
 
-### 5.7 Single Vite version, pinned to the latest (`overrides`)
-
-- **Choice**: `overrides: { vite: "8.1.0" }` — one exact Vite across the tree.
-- **Why forced**: `@angular/build` depends on Vite 7.3.5 while Vitest accepts
-  `^6 || ^7 || ^8` and would pull Vite 8 — two copies. The `@angular/build:unit-test`
-  builder runs Vitest through Angular's own Vite pipeline, so both must share a single
-  Vite instance; duplicate majors break the runner.
-- **Why 8.1.0 and not 7.3.5**: unifying is mandatory, the target is a choice — we take
-  the latest Vite (8) over the version `@angular/build` ships with (7). Build and tests
-  are green against it. Exact pin (not `^8`) so a Vite bump can't silently break the
-  Angular plugin.
-
 ---
 
 ## 6. Simulated real-time feed
