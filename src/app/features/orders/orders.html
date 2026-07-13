@@ -1,0 +1,122 @@
+<header class="mb-5">
+  <h1 class="text-2xl font-semibold">Ordres de fabrication</h1>
+  <p class="mt-0.5 text-sm text-secondary">
+    Rentabilité en temps réel — les agrégats reflètent le filtre actif.
+  </p>
+</header>
+
+<!-- Aggregates over the FILTERED list (@let: one read, template-local) -->
+@let agg = store.aggregates();
+<section class="mb-4 grid grid-cols-3 gap-4" aria-label="Agrégats">
+  <figure class="m-0 rounded-xl border border-default bg-surface-raised px-4 py-3.5">
+    <figcaption class="text-xs uppercase tracking-[0.05em] text-secondary">Marge totale</figcaption>
+    <p class="mt-1 text-2xl font-semibold tabular-nums">
+      <span [class.text-success]="agg.totalMargin >= 0" [class.text-danger]="agg.totalMargin < 0">{{
+        formatSignedPrice(agg.totalMargin)
+      }}</span>
+    </p>
+  </figure>
+  <figure class="m-0 rounded-xl border border-default bg-surface-raised px-4 py-3.5">
+    <figcaption class="text-xs uppercase tracking-[0.05em] text-secondary">OF en cours</figcaption>
+    <p class="mt-1 text-2xl font-semibold tabular-nums">{{ agg.inProgressCount }}</p>
+  </figure>
+  <figure class="m-0 rounded-xl border border-default bg-surface-raised px-4 py-3.5">
+    <figcaption class="text-xs uppercase tracking-[0.05em] text-secondary">
+      Taux de rebut moyen
+    </figcaption>
+    <p class="mt-1 text-2xl font-semibold tabular-nums">{{ formatRate(agg.averageScrapRate) }}</p>
+  </figure>
+</section>
+
+<section class="mb-3 flex items-center gap-2.5" aria-label="Filtres">
+  <input
+    class="field max-w-[340px] flex-1"
+    type="search"
+    placeholder="Rechercher une référence ou un produit…"
+    aria-label="Recherche"
+    [value]="store.filter().search"
+    (input)="onSearch($event)"
+  />
+  <select
+    class="field"
+    aria-label="Filtrer par statut"
+    [value]="store.filter().status"
+    (change)="onStatusChange($event)"
+  >
+    <option value="all">Tous les statuts</option>
+    @for (status of statuses; track status) {
+      <option [value]="status">{{ statusLabels[status] }}</option>
+    }
+  </select>
+  <p class="ml-auto text-xs tabular-nums text-secondary">{{ rows().length }} OF</p>
+</section>
+
+<div class="overflow-x-auto rounded-xl border border-default bg-surface-raised">
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr>
+        @for (column of columns; track column.key) {
+          <th [attr.aria-sort]="ariaSort(column.key)" [class.num]="column.numeric">
+            <button type="button" class="sort" (click)="store.toggleSort(column.key)">
+              {{ column.label }}
+              @switch (ariaSort(column.key)) {
+                @case ('ascending') {
+                  <span aria-hidden="true">▲</span>
+                }
+                @case ('descending') {
+                  <span aria-hidden="true">▼</span>
+                }
+              }
+            </button>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.order.id) {
+        <tr
+          [class.updated]="store.recentlyUpdated().has(row.order.id)"
+          (click)="store.select(row.order.id)"
+        >
+          <!-- Cells iterate the same COLUMNS as the header, so their order and
+               count can't drift from it; each column's rendering stays explicit. -->
+          @for (column of columns; track column.key) {
+            <td [class.num]="column.numeric">
+              @switch (column.key) {
+                @case ('reference') {
+                  <span class="font-mono text-xs">{{ row.order.reference }}</span>
+                }
+                @case ('produit') {
+                  {{ row.order.produit }}
+                }
+                @case ('statut') {
+                  <vela-status-badge [status]="row.order.statut" />
+                }
+                @case ('quantiteProduite') {
+                  {{ row.order.quantiteProduite }}
+                  <span class="text-secondary">/ {{ row.order.quantitePrevue }}</span>
+                }
+                @case ('tauxRebut') {
+                  {{ formatRate(row.order.tauxRebut) }}
+                }
+                @case ('margin') {
+                  <span
+                    [class.text-danger]="row.margin < 0"
+                    [class.text-success]="row.margin >= 0"
+                    >{{ formatSignedPrice(row.margin) }}</span
+                  >
+                }
+              }
+            </td>
+          }
+        </tr>
+      } @empty {
+        <tr>
+          <td [attr.colspan]="columns.length" class="p-7 text-center text-secondary">
+            Aucun OF ne correspond au filtre.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

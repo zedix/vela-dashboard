@@ -1,0 +1,99 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Badge — the <vela-badge> host IS the pill  ·  modelled on Luxen's badge
+   Variant sets the text colour; appearance derives background/border from it.
+   ────────────────────────────────────────────────────────────────────── */
+
+:host {
+  /* Per-variant knobs — set by [data-variant], consumed by [data-appearance]. */
+  --_text-color: var(--v-color-text-neutral);
+  --_background-color: transparent;
+  --_border-color: color-mix(in oklab, var(--_text-color) 30%, transparent);
+
+  /* Size defaults (md). */
+  --_min-height: 1.375rem;
+  --_font-size: var(--v-text-xs);
+  --_padding-inline: var(--v-spacing-2_5);
+  --_gap: var(--v-spacing-1);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_gap);
+  min-height: var(--_min-height);
+  padding-block: var(--v-spacing-1);
+  padding-inline: var(--_padding-inline);
+  border: 1px solid var(--_border-color);
+  border-radius: var(--v-radius-md);
+  background-color: var(--_background-color);
+  color: var(--_text-color);
+  font-family: var(--v-font-sans);
+  font-size: var(--_font-size);
+  font-weight: var(--v-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ── Sizes ─────────────────────────────────────────────────────── */
+:host([data-size='sm']) {
+  --_min-height: 1.25rem;
+  --_padding-inline: var(--v-spacing-2);
+  --_gap: var(--v-spacing-0_5);
+}
+:host([data-size='lg']) {
+  --_min-height: 1.5rem;
+  --_font-size: var(--v-text-sm);
+  --_padding-inline: var(--v-spacing-3);
+}
+
+/* ── Variants (text colour) ────────────────────────────────────── */
+:host([data-variant='info']) {
+  --_text-color: var(--v-color-text-info);
+}
+:host([data-variant='success']) {
+  --_text-color: var(--v-color-text-success);
+}
+:host([data-variant='warning']) {
+  --_text-color: var(--v-color-text-warning);
+}
+:host([data-variant='danger']) {
+  --_text-color: var(--v-color-text-danger);
+}
+
+/* ── Appearances (background/border from the variant) ──────────── */
+:host([data-appearance='filled']) {
+  --_background-color: var(--v-color-bg-fill-neutral-subtle);
+  --_border-color: transparent;
+}
+:host([data-appearance='filled'][data-variant='info']) {
+  --_background-color: var(--v-color-bg-fill-info-subtle);
+}
+:host([data-appearance='filled'][data-variant='success']) {
+  --_background-color: var(--v-color-bg-fill-success-subtle);
+}
+:host([data-appearance='filled'][data-variant='warning']) {
+  --_background-color: var(--v-color-bg-fill-warning-subtle);
+}
+:host([data-appearance='filled'][data-variant='danger']) {
+  --_background-color: var(--v-color-bg-fill-danger-subtle);
+}
+
+/* filled-outlined = subtle fill AND the variant border (our status look). */
+:host([data-appearance='filled-outlined']) {
+  --_background-color: var(--v-color-bg-fill-neutral-subtle);
+}
+:host([data-appearance='filled-outlined'][data-variant='info']) {
+  --_background-color: var(--v-color-bg-fill-info-subtle);
+}
+:host([data-appearance='filled-outlined'][data-variant='success']) {
+  --_background-color: var(--v-color-bg-fill-success-subtle);
+}
+:host([data-appearance='filled-outlined'][data-variant='warning']) {
+  --_background-color: var(--v-color-bg-fill-warning-subtle);
+}
+:host([data-appearance='filled-outlined'][data-variant='danger']) {
+  --_background-color: var(--v-color-bg-fill-danger-subtle);
+}
+
+/* ── Pill ──────────────────────────────────────────────────────── */
+:host([data-pill]) {
+  border-radius: var(--v-radius-full);
+}
