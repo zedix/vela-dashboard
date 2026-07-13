@@ -1,0 +1,115 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Button — visual layer for the `velaButton` directive (button.ts)
+   The directive applies `.v-button` + `data-*` to a native <button>/<a>.
+   Global DS stylesheet, composed by ui/index.css (Luxen-style: `.v-button`
+   + `data-*` variants). Secondary by default; primary/destructive variants;
+   sizes; `data-block` for full width.
+   ────────────────────────────────────────────────────────────────────── */
+
+.v-button {
+  /* Appearance (default: secondary). */
+  --_height: var(--v-size-control-md);
+  --_padding-inline: var(--v-spacing-2_5);
+  --_bg: var(--v-color-bg-fill-secondary);
+  --_bg-hover: color-mix(
+    in oklab,
+    var(--v-color-bg-fill-secondary) 90%,
+    var(--v-color-text-primary)
+  );
+  --_bg-active: var(--_bg-hover);
+  --_text: var(--v-color-text-primary);
+  --_border: var(--v-color-border);
+  --_border-hover: color-mix(in oklab, var(--v-color-border) 75%, var(--v-color-text-primary));
+
+  display: inline-flex;
+  place-items: center;
+  justify-content: center;
+  gap: var(--v-spacing-2);
+  height: var(--_height);
+  padding-inline: var(--_padding-inline);
+  border: 1px solid var(--_border);
+  border-radius: var(--v-radius-lg);
+  background: var(--_bg);
+  color: var(--_text);
+  font: inherit;
+  font-size: var(--v-text-sm);
+  font-weight: var(--v-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  appearance: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: background-color, border-color, color, transform;
+  transition-duration: var(--v-duration-fast);
+  transition-timing-function: var(--v-ease-out);
+}
+
+.v-button:disabled,
+.v-button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.v-button:not(:disabled):not([aria-disabled='true']):hover {
+  background: var(--_bg-hover);
+  border-color: var(--_border-hover);
+}
+
+.v-button:not(:disabled):not([aria-disabled='true']):active {
+  background: var(--_bg-active);
+  transform: scale(0.97); /* subtle press feedback */
+}
+
+/* Reduced motion: keep the colour feedback, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .v-button:active {
+    transform: none;
+  }
+}
+
+.v-button:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: 2px;
+}
+
+.v-button[data-block] {
+  width: 100%;
+}
+
+/* ── Variants ──────────────────────────────────────────────────── */
+.v-button[data-variant='primary'] {
+  --_bg: var(--v-color-bg-fill-brand);
+  --_bg-hover: var(--v-color-bg-fill-brand-hover);
+  --_bg-active: var(--v-color-bg-fill-brand-active);
+  --_text: var(--v-color-text-on-fill-brand);
+  --_border: transparent;
+  --_border-hover: transparent;
+}
+
+.v-button[data-variant='destructive'] {
+  --_bg: var(--v-color-bg-fill-danger-soft);
+  --_bg-hover: color-mix(
+    in oklab,
+    var(--v-color-bg-fill-danger-soft) 80%,
+    var(--v-color-text-danger)
+  );
+  --_bg-active: color-mix(
+    in oklab,
+    var(--v-color-bg-fill-danger-soft) 65%,
+    var(--v-color-text-danger)
+  );
+  --_text: var(--v-color-text-danger);
+  --_border: transparent;
+  --_border-hover: transparent;
+}
+
+/* ── Sizes ─────────────────────────────────────────────────────── */
+.v-button[data-size='sm'] {
+  --_height: var(--v-size-control-sm);
+  --_padding-inline: var(--v-spacing-2);
+}
+.v-button[data-size='lg'] {
+  --_height: var(--v-size-control-lg);
+  --_padding-inline: var(--v-spacing-3);
+}

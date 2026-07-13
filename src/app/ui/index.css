@@ -6,3 +6,5 @@
    ────────────────────────────────────────────────────────────────────── */
 
 @import './tokens/index.css';
+@import './button/button.css';
+@import './progress/progress.css';

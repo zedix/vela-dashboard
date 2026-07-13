@@ -1,0 +1,73 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Close button — icon-only dismiss control  ·  modelled on Luxen's close-button
+   The ✕ is a masked SVG (inherits --_icon-color), so it's crisp and
+   recolourable. Accessibility-first: a real <button>, focus-visible ring,
+   needs an aria-label from the consumer.
+   ────────────────────────────────────────────────────────────────────── */
+
+:host {
+  display: inline-flex;
+}
+
+.close {
+  --_size: var(--v-size-control-md);
+  --_icon-size: 1.125rem;
+  --_icon-color: var(--v-color-text-secondary);
+  --_bg: transparent;
+  --_bg-hover: var(--v-color-bg-fill-neutral-subtle);
+
+  display: grid;
+  place-items: center;
+  width: var(--_size);
+  height: var(--_size);
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  border-radius: var(--v-radius-md);
+  background: var(--_bg);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--v-duration-fast) ease,
+    transform var(--v-duration-fast) var(--v-ease-out);
+}
+
+.close::after {
+  content: '';
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  background-color: var(--_icon-color);
+  /* MDI "close" — https://pictogrammers.com/library/mdi/icon/close */
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>')
+    center / contain no-repeat;
+}
+
+.close:hover {
+  --_bg: var(--_bg-hover);
+  --_icon-color: var(--v-color-text-primary);
+}
+
+.close:active {
+  background: color-mix(in oklab, var(--_bg-hover) 80%, black);
+  transform: scale(0.97); /* subtle press feedback */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .close:active {
+    transform: none;
+  }
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ── Appearances ───────────────────────────────────────────────── */
+:host([data-appearance='circle']) .close {
+  --_size: var(--v-size-control-lg);
+  --_bg: var(--v-color-bg-fill-neutral-subtle);
+  border-radius: var(--v-radius-full);
+}

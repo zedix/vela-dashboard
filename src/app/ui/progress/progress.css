@@ -1,0 +1,30 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Progress — visual layer for the `velaProgress` directive (progress.ts)
+   Global DS stylesheet (composed by ui/index.css), Luxen-style `.v-*` class.
+   The cross-browser pseudo-elements (::-webkit-progress-*, ::-moz-progress-bar)
+   need real CSS — exactly what utilities express poorly.
+   ────────────────────────────────────────────────────────────────────── */
+
+.v-progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  border: none;
+  border-radius: var(--v-radius-full);
+  background: var(--v-color-bg-fill-neutral-subtle);
+  overflow: hidden;
+}
+
+.v-progress::-webkit-progress-bar {
+  background: var(--v-color-bg-fill-neutral-subtle);
+}
+
+.v-progress::-webkit-progress-value {
+  background: var(--v-color-bg-fill-info-strong);
+  border-radius: var(--v-radius-full);
+}
+
+.v-progress::-moz-progress-bar {
+  background: var(--v-color-bg-fill-info-strong);
+}

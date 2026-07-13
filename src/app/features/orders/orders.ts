@@ -9,6 +9,7 @@ import {
 } from '../../core/models/order.model';
 import { OrdersStore } from '../../core/store/orders-store';
 import { formatRate, formatSignedPrice } from '@shared/utils';
+import { OrderDetail } from './order-detail/order-detail';
 import { StatCard } from './stat-card';
 import { StatusBadge } from './status-badge';
 
@@ -47,7 +48,7 @@ const COLUMNS: readonly Column[] = [
   selector: 'vela-orders',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
-  imports: [StatCard, StatusBadge],
+  imports: [OrderDetail, StatCard, StatusBadge],
   templateUrl: './orders.html',
   styleUrl: './orders.css',
 })

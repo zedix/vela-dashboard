@@ -1,0 +1,73 @@
+<!-- Slotted elements must be DIRECT children of <vela-drawer> for named
+     projection to match them — so the @if lives *inside* each slot, not around
+     the whole content (Angular doesn't select content projected from an @if). -->
+<vela-drawer [open]="order() !== null" (closed)="closed.emit()">
+  <div slot="title">
+    @if (order(); as current) {
+      <h2 class="m-0 flex items-center gap-2.5 text-lg">
+        <span class="font-mono">{{ current.reference }}</span>
+        <vela-status-badge [status]="current.statut" />
+      </h2>
+      <p class="mt-[3px] text-sm text-secondary">{{ current.produit }}</p>
+    }
+  </div>
+
+  @if (order(); as current) {
+    <section class="grid gap-2 border-t border-divider py-3" aria-label="Avancement">
+      <div class="flex items-baseline justify-between gap-3 text-sm">
+        <span class="text-secondary">Production</span>
+        <span class="tabular-nums">
+          {{ current.quantiteProduite }}
+          <span class="text-tertiary">/ {{ current.quantitePrevue }}</span>
+        </span>
+      </div>
+      <progress
+        class="v-progress"
+        [value]="current.quantiteProduite"
+        [max]="current.quantitePrevue"
+      ></progress>
+      <div class="flex items-baseline justify-between gap-3 text-sm">
+        <span class="text-secondary">Taux de rebut</span>
+        <span class="tabular-nums">{{ formatRate(current.tauxRebut) }}</span>
+      </div>
+      <div class="flex items-baseline justify-between gap-3 text-sm">
+        <span class="text-secondary">Prix de vente unitaire</span>
+        <span class="tabular-nums">{{ formatPrice(current.prixVenteUnitaire) }}</span>
+      </div>
+    </section>
+
+    <!-- Mini P&L: the computeMargin formula, told visually. -->
+    <section class="grid gap-2 border-t border-divider py-3" aria-label="P&L">
+      <div class="flex items-baseline justify-between gap-3 text-sm">
+        <span class="text-secondary">CA (quantités bonnes)</span>
+        <span class="tabular-nums">{{ formatPrice(revenue()) }}</span>
+      </div>
+      <div class="flex items-baseline justify-between gap-3 text-sm">
+        <span class="pl-3 text-secondary">Coût matières</span>
+        <span class="tabular-nums">− {{ formatPrice(current.coutMatiere) }}</span>
+      </div>
+      <div class="flex items-baseline justify-between gap-3 text-sm">
+        <span class="pl-3 text-secondary">Coût main-d'œuvre</span>
+        <span class="tabular-nums">− {{ formatPrice(current.coutMainOeuvre) }}</span>
+      </div>
+      <!-- The margin total is the *result* line, deliberately distinct (not a
+           repeated row): dashed rule, emphasis, sign-coloured value. -->
+      <div
+        class="mt-1 flex items-baseline justify-between gap-3 border-t border-dashed border-default pt-2.5 text-base font-semibold"
+      >
+        <span class="text-secondary">Marge</span>
+        <span
+          class="tabular-nums"
+          [class.text-success]="margin() >= 0"
+          [class.text-danger]="margin() < 0"
+        >
+          {{ formatSignedPrice(margin()) }}
+        </span>
+      </div>
+    </section>
+
+    <p class="my-3.5 text-xs italic text-tertiary">Mise à jour en continu depuis le flux.</p>
+  }
+
+  <button slot="footer" velaButton variant="primary" block (click)="closed.emit()">Fermer</button>
+</vela-drawer>
