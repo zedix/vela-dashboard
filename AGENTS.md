@@ -62,8 +62,8 @@ core/stream/                       core/store/                 features/orders/
   purged in `DestroyRef.onDestroy`).
 - `core/domain/pnl.ts` — margin/aggregates/filter/sort as **pure functions,
   zero Angular imports**. This is the tested core (`pnl.spec.ts`, no TestBed).
-  Components implement no business math; the store only composes these in
-  computeds.
+  Business math lives in `pnl.ts`, never inlined in components; the store — and
+  thin component view-models — compose these pure functions in computeds.
 - `ui/` — the **self-contained** mini design system: **generic, presentational,
   domain-free** primitives, each colocated in its folder, styled ONLY from the
   semantic `--v-*` tokens, never importing `core/` or `features/`. It owns its

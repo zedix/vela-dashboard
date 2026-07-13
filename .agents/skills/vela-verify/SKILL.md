@@ -14,7 +14,7 @@ the browser on the production bundle**, before every commit that touches
 ## 1. Mechanical gates (always)
 
 ```bash
-npx ng test          # Vitest — expect "12 passed" (or the current count)
+npx ng test          # Vitest — expect "14 passed" (or the current count)
 npm run build        # production build — expect "Application bundle generation complete"
 npx prettier --check "src/**/*.{ts,html,css}" "*.{json,md}" "docs/*.md"
 ```
