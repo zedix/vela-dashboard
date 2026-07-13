@@ -415,14 +415,26 @@ alternatives, and why, in a few lines.
   understanding" disqualifier — the agent is driven by written conventions and every
   choice is recorded with its alternatives.
 
-### 5.5 Commit history + git hooks
+### 5.5 Commit history + quality tooling (hooks, ESLint)
 
 - **Choice**: atomic commits in build order (core → feed → store → UI → docs), build +
-  tests green at each. Git hooks (husky v9): `commit-msg` → commitlint (Conventional
-  Commits); `pre-commit` → lint-staged (`prettier --write` on staged files only).
+  tests green at each. Tooling, in layers:
+  - **Git hooks (husky v9)**: `commit-msg` → commitlint (Conventional Commits);
+    `pre-commit` → lint-staged (`prettier --write` on staged files only).
+  - **ESLint** (flat config, `typescript-eslint` + `angular-eslint` **recommended** +
+    template accessibility), as `npm run lint`. Two selector rules encode the naming
+    doctrine (`vela-*` components, camelCase directives); one type-aware rule,
+    `no-floating-promises`, guards the subscription/promise-leak class this real-time
+    app cares about. Not the type-checked presets (`no-unsafe-*`) — noisy against
+    strictly-typed code that `tsc` already covers.
+- **A false positive, handled cleanly**: the native `<dialog>` backdrop-dismiss click
+  trips two template a11y rules — keyboard dismissal is already native (Esc) and focus
+  is trapped by `showModal()`, so those rules are disabled **locally** on that line,
+  with a comment.
 - **Why**: the brief reads the history — the order tells the story, the convention
   keeps it parseable. The hooks keep every commit's message and formatting clean by
-  construction.
+  construction; ESLint catches what the compiler can't (template a11y, Angular
+  structure).
 
 ### 5.6 README hub + `docs/` (no monolithic README)
 
@@ -434,6 +446,18 @@ alternatives, and why, in a few lines.
   the "deliberately left out" list. Only long developments are externalised.
 - **Badges**: static only — a dynamic status badge is added only once its source is
   live on the remote (a badge that 404s is worse than none).
+
+### 5.7 Single Vite version, pinned to the latest (`overrides`)
+
+- **Choice**: `overrides: { vite: "8.1.0" }` — one exact Vite across the tree.
+- **Why forced**: `@angular/build` depends on Vite 7.3.5 while Vitest accepts
+  `^6 || ^7 || ^8` and would pull Vite 8 — two copies. The `@angular/build:unit-test`
+  builder runs Vitest through Angular's own Vite pipeline, so both must share a single
+  Vite instance; duplicate majors break the runner.
+- **Why 8.1.0 and not 7.3.5**: unifying is mandatory, the target is a choice — we take
+  the latest Vite (8) over the version `@angular/build` ships with (7). Build and tests
+  are green against it. Exact pin (not `^8`) so a Vite bump can't silently break the
+  Angular plugin.
 
 ---
 

@@ -31,6 +31,7 @@ Other commands:
 ```bash
 npm test             # unit tests (Vitest)
 npm run build        # production build (Vite/esbuild) → dist/
+npm run lint         # ESLint (angular-eslint flat config)
 npm run format:check # Prettier check (use `npx prettier --write .` to fix)
 ```
 
