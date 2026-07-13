@@ -18,3 +18,5 @@ export { CloseButton } from './close-button/close-button';
 export type { CloseButtonAppearance } from './close-button/close-button';
 
 export { Drawer } from './drawer/drawer';
+
+export { Progress } from './progress/progress';
