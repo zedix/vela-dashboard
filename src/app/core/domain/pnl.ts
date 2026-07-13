@@ -1,3 +1,4 @@
+import { normalizeForSearch } from '@shared/utils';
 import type { ManufacturingOrder, OrderStatus } from '../models/order.model';
 
 /**
@@ -72,18 +73,6 @@ export interface OrderFilter {
 }
 
 export const NO_FILTER: OrderFilter = { status: 'all', search: '' };
-
-/**
- * Normalizes text for case- and accent-insensitive search matching:
- * lowercases, then strips diacritics ("Défaut" → "defaut") so the search
- * ignores accents.
- */
-function normalizeForSearch(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD') // decompose "é" into "e" + combining accent…
-    .replace(/[\u0300-\u036f]/g, ''); // …then drop the combining accents
-}
 
 /**
  * Filters the list by status and text search.
