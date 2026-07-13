@@ -71,7 +71,7 @@ td.num {
   letter-spacing: 0.04em;
   text-align: inherit;
   cursor: pointer;
-  transition: color 0.15s ease;
+  transition: color var(--v-duration-fast) ease;
 }
 
 .sort:hover {
@@ -81,17 +81,19 @@ td.num {
 td {
   padding: 9px 14px;
   border-bottom: 1px solid color-mix(in oklab, var(--v-color-border) 55%, transparent);
+  /* Hover lives on the cells → snappy, decoupled from the row's slow
+     highlight fade below (which owns the tr's background-color transition). */
+  transition: background-color var(--v-duration-fast) ease;
 }
 
 tbody tr {
   position: relative; /* anchors the row-open overlay */
   cursor: pointer;
-  /* Hover + the fade-out half of the update highlight share the row's
-     background-color transition (decoupled later, once motion tokens exist). */
-  transition: background-color 0.6s ease;
+  /* The fade-out half of the update highlight (row background only). */
+  transition: background-color var(--v-duration-slow) ease;
 }
 
-tbody tr:hover {
+tbody tr:hover td {
   background: var(--v-color-bg-fill-neutral-subtle);
 }
 

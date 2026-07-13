@@ -1,0 +1,17 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Primitives — motion (easing + duration).
+   Strong custom curves (built-in `ease` is too weak for deliberate
+   motion); consumed directly by components. Movement is gated by
+   `prefers-reduced-motion` at the component level.
+   ────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Easing */
+  --v-ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out — entrances/exits, press */
+  --v-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* iOS-like — the drawer slide */
+
+  /* Duration */
+  --v-duration-fast: 150ms; /* hover, colour, press */
+  --v-duration-base: 220ms; /* drawer panel + backdrop */
+  --v-duration-slow: 600ms; /* row update-highlight fade-out */
+}
