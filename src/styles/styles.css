@@ -1,21 +1,21 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Global stylesheet — the single entry point (angular.json).
-   Minimal for now; it grows into the token + Tailwind cascade as the
-   design system lands.
+   Cascade order is deliberate and lives here, not in a JSON array:
+   fonts, Tailwind, the token bridge it consumes, the design system, base.
    ────────────────────────────────────────────────────────────────────── */
 
-html,
-body {
-  min-height: 100%;
-  margin: 0;
-}
+/* 0 · Fonts — Inter, self-hosted (no external request). Variable weight axis;
+       only the latin subset is fetched at runtime (unicode-range). */
+@import '@fontsource-variable/inter/wght.css';
 
-body {
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-  color: #1a1a1a;
-  background: #ffffff;
-  -webkit-font-smoothing: antialiased;
-}
+/* 1 · Tailwind v4 (CSS-first) + the @theme bridge mapping our --v-*
+       tokens onto Tailwind's namespaces (must follow `tailwindcss`). */
+@import 'tailwindcss';
+@import '../app/ui/tailwind-bridge.css';
+
+/* 2 · Design system — tokens + global primitive sheets, composed by the
+       DS's own manifest (ui/index.css). */
+@import '../app/ui/index.css';
+
+/* 3 · App base (consumes the semantic tokens). */
+@import './base.css';

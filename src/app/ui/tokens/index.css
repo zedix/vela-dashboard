@@ -1,0 +1,9 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Design tokens — Vela (`--v-*`), two layers, modelled on Luxen.
+   primitives (palette + dimensions) → semantic aliases. Order matters:
+   primitives first so the aliases can reference them.
+   ────────────────────────────────────────────────────────────────────── */
+
+@import './palette.css';
+@import './dimensions.css';
+@import './semantic.css';

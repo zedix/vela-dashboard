@@ -1,0 +1,19 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Base — global theme (reset comes from Tailwind's preflight)
+   Consumes the semantic tokens (`tokens.css`). Minimal on purpose: view
+   styling lives in components.
+   ────────────────────────────────────────────────────────────────────── */
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--v-color-surface);
+  color: var(--v-color-text-primary);
+  font-family: var(--v-font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}

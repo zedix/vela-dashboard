@@ -1,0 +1,66 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Semantic aliases — the ONLY tokens components use.
+   Intent-named, resolved per scheme with `light-dark()`. Pinned dark
+   (`color-scheme: dark`); both branches defined, so `light dark` would
+   light-theme the app for free. Re-theming happens in this file.
+   ────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  /* Text */
+  --v-color-text-primary: light-dark(var(--v-color-gray-700), var(--v-color-gray-200));
+  --v-color-text-secondary: light-dark(var(--v-color-gray-600), var(--v-color-gray-400));
+  --v-color-text-tertiary: light-dark(var(--v-color-gray-500), var(--v-color-gray-500));
+  --v-color-text-neutral: light-dark(var(--v-color-gray-700), var(--v-color-gray-300));
+  --v-color-text-info: light-dark(var(--v-color-blue-700), var(--v-color-blue-300));
+  --v-color-text-success: light-dark(var(--v-color-green-700), var(--v-color-green-300));
+  --v-color-text-warning: light-dark(var(--v-color-yellow-700), var(--v-color-yellow-300));
+  --v-color-text-danger: light-dark(var(--v-color-red-700), var(--v-color-red-300));
+  --v-color-text-on-fill-brand: light-dark(var(--v-color-white), var(--v-color-gray-900));
+
+  /* Surfaces */
+  --v-color-surface: light-dark(var(--v-color-white), var(--v-color-gray-900));
+  --v-color-surface-raised: light-dark(var(--v-color-white), var(--v-color-gray-800));
+  --v-color-surface-overlay: light-dark(var(--v-color-white), var(--v-color-gray-800));
+
+  /* Borders & dividers */
+  --v-color-border: light-dark(var(--v-color-gray-300), var(--v-color-gray-700));
+  --v-color-border-interactive: light-dark(var(--v-color-gray-300), var(--v-color-gray-600));
+  --v-color-divider: light-dark(var(--v-color-gray-200), var(--v-color-gray-800));
+
+  /* State tints (alpha, so underlying content shows through) */
+  --v-color-bg-state-hover: light-dark(rgb(0 0 0 / 5%), rgb(255 255 255 / 6%));
+  --v-color-bg-state-selected: light-dark(rgb(0 0 0 / 7%), rgb(255 255 255 / 9%));
+
+  /* Fills — brand + secondary */
+  --v-color-bg-fill-brand: light-dark(var(--v-color-gray-900), var(--v-color-gray-50));
+  --v-color-bg-fill-brand-hover: light-dark(var(--v-color-gray-800), var(--v-color-gray-200));
+  --v-color-bg-fill-brand-active: light-dark(var(--v-color-gray-700), var(--v-color-gray-300));
+  --v-color-bg-fill-secondary: light-dark(var(--v-color-white), var(--v-color-gray-700));
+
+  /* Fills — semantic (soft / subtle / strong) */
+  --v-color-bg-fill-neutral-soft: light-dark(var(--v-color-gray-50), var(--v-color-gray-800));
+  --v-color-bg-fill-neutral-subtle: light-dark(var(--v-color-gray-100), var(--v-color-gray-700));
+  --v-color-bg-fill-info-subtle: light-dark(var(--v-color-blue-100), var(--v-color-blue-900));
+  --v-color-bg-fill-info-strong: light-dark(var(--v-color-blue-600), var(--v-color-blue-500));
+  --v-color-bg-fill-success-subtle: light-dark(var(--v-color-green-100), var(--v-color-green-900));
+  --v-color-bg-fill-success-strong: light-dark(var(--v-color-green-600), var(--v-color-green-500));
+  --v-color-bg-fill-warning-subtle: light-dark(
+    var(--v-color-yellow-100),
+    var(--v-color-yellow-900)
+  );
+  --v-color-bg-fill-danger-subtle: light-dark(var(--v-color-red-100), var(--v-color-red-900));
+  --v-color-bg-fill-danger-soft: light-dark(var(--v-color-red-50), var(--v-color-red-950));
+  --v-color-bg-fill-danger-strong: light-dark(var(--v-color-red-600), var(--v-color-red-600));
+
+  /* Overlay backdrop + elevation */
+  --v-backdrop: light-dark(oklch(46% 0.01 260 / 33%), oklch(15% 0.01 260 / 60%));
+  --v-shadow-sm: 0 1px 2px 0 light-dark(rgb(0 0 0 / 8%), rgb(0 0 0 / 40%));
+  --v-shadow-lg:
+    0 10px 15px -3px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 50%)),
+    0 4px 6px -4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 44%));
+
+  /* Focus ring — blue to match the app accent. */
+  --v-focus-ring: var(--v-color-blue-500);
+}

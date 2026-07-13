@@ -1,0 +1,93 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Vela → Tailwind v4 bridge  ·  modelled on Luxen's theme.css
+   Maps the semantic `--v-*` tokens onto Tailwind's per-property namespaces
+   so utilities resolve to our tokens:
+
+     --text-color-*        →  text-primary, text-info, …
+     --background-color-*  →  bg-surface, bg-fill-info-strong, …
+     --border-color-*      →  border-default, divide-divider, …
+     --radius-* · --text-* · --font-* · --spacing · --shadow-*
+                           →  rounded-md, text-sm, font-semibold, p-4, …
+
+   `@theme inline` is deliberate: the utility keeps referencing `var(--v-*)`
+   at the use-site instead of freezing the value, so `light-dark()` still
+   resolves per colour scheme. The raw tokens live in tokens/ (loaded
+   globally); this file only bridges them. Imported after `tailwindcss`
+   from styles/styles.css.
+   ────────────────────────────────────────────────────────────────────── */
+
+@theme inline {
+  /* ── Font families ─────────────────────────────────────────────── */
+  --font-sans: var(--v-font-sans);
+  --font-mono: var(--v-font-mono);
+
+  /* ── Font weights ──────────────────────────────────────────────── */
+  --font-weight-medium: var(--v-font-weight-medium);
+  --font-weight-semibold: var(--v-font-weight-semibold);
+  --font-weight-bold: var(--v-font-weight-bold);
+
+  /* ── Type scale (font-size + paired line-height) ───────────────── */
+  --text-xs: var(--v-text-xs);
+  --text-xs--line-height: var(--v-text-xs--line-height);
+  --text-sm: var(--v-text-sm);
+  --text-sm--line-height: var(--v-text-sm--line-height);
+  --text-base: var(--v-text-base);
+  --text-base--line-height: var(--v-text-base--line-height);
+  --text-lg: var(--v-text-lg);
+  --text-lg--line-height: var(--v-text-lg--line-height);
+  --text-xl: var(--v-text-xl);
+  --text-xl--line-height: var(--v-text-xl--line-height);
+  --text-2xl: var(--v-text-2xl);
+  --text-2xl--line-height: var(--v-text-2xl--line-height);
+
+  /* ── Radius ────────────────────────────────────────────────────── */
+  --radius-sm: var(--v-radius-sm);
+  --radius-md: var(--v-radius-md);
+  --radius-lg: var(--v-radius-lg);
+  --radius-xl: var(--v-radius-xl);
+  --radius-full: var(--v-radius-full);
+
+  /* ── Spacing base (Tailwind derives the numeric scale) ─────────── */
+  --spacing: var(--v-spacing);
+
+  /* ── Text colours → text-* ─────────────────────────────────────── */
+  --text-color-primary: var(--v-color-text-primary);
+  --text-color-secondary: var(--v-color-text-secondary);
+  --text-color-tertiary: var(--v-color-text-tertiary);
+  --text-color-neutral: var(--v-color-text-neutral);
+  --text-color-info: var(--v-color-text-info);
+  --text-color-success: var(--v-color-text-success);
+  --text-color-warning: var(--v-color-text-warning);
+  --text-color-danger: var(--v-color-text-danger);
+  --text-color-on-fill-brand: var(--v-color-text-on-fill-brand);
+
+  /* ── Surfaces + fills → bg-* ───────────────────────────────────── */
+  --background-color-surface: var(--v-color-surface);
+  --background-color-surface-raised: var(--v-color-surface-raised);
+  --background-color-surface-overlay: var(--v-color-surface-overlay);
+  --background-color-state-hover: var(--v-color-bg-state-hover);
+  --background-color-state-selected: var(--v-color-bg-state-selected);
+  --background-color-fill-brand: var(--v-color-bg-fill-brand);
+  --background-color-fill-brand-hover: var(--v-color-bg-fill-brand-hover);
+  --background-color-fill-brand-active: var(--v-color-bg-fill-brand-active);
+  --background-color-fill-secondary: var(--v-color-bg-fill-secondary);
+  --background-color-fill-neutral-soft: var(--v-color-bg-fill-neutral-soft);
+  --background-color-fill-neutral-subtle: var(--v-color-bg-fill-neutral-subtle);
+  --background-color-fill-info-subtle: var(--v-color-bg-fill-info-subtle);
+  --background-color-fill-info-strong: var(--v-color-bg-fill-info-strong);
+  --background-color-fill-success-subtle: var(--v-color-bg-fill-success-subtle);
+  --background-color-fill-success-strong: var(--v-color-bg-fill-success-strong);
+  --background-color-fill-warning-subtle: var(--v-color-bg-fill-warning-subtle);
+  --background-color-fill-danger-subtle: var(--v-color-bg-fill-danger-subtle);
+  --background-color-fill-danger-soft: var(--v-color-bg-fill-danger-soft);
+  --background-color-fill-danger-strong: var(--v-color-bg-fill-danger-strong);
+
+  /* ── Borders → border-* / divide-* ─────────────────────────────── */
+  --border-color-default: var(--v-color-border);
+  --border-color-interactive: var(--v-color-border-interactive);
+  --border-color-divider: var(--v-color-divider);
+
+  /* ── Shadows → shadow-* ────────────────────────────────────────── */
+  --shadow-sm: var(--v-shadow-sm);
+  --shadow-lg: var(--v-shadow-lg);
+}

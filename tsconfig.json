@@ -13,7 +13,18 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    // `baseUrl` is needed for the bundler to resolve the `@ui`/`@shared` path
+    // aliases; it is deprecated in TS 6 so we opt out of the hard error until
+    // esbuild resolves paths without it (then both this and `ignoreDeprecations`
+    // can be dropped).
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@ui": ["src/app/ui"],
+      "@ui/*": ["src/app/ui/*"],
+      "@shared/*": ["src/app/shared/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

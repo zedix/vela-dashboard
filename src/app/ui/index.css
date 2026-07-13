@@ -1,0 +1,8 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Design-system CSS manifest — mirrors the `index.ts` barrel.
+   The tokens and the global `.v-*` primitive sheets, in one import for
+   the app entry point (styles/styles.css). A new global primitive sheet
+   is one line here — angular.json never changes.
+   ────────────────────────────────────────────────────────────────────── */
+
+@import './tokens/index.css';

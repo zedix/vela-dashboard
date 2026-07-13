@@ -1,0 +1,55 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Primitives — palette (Tailwind v4 OKLCH).
+   Raw colours; never referenced by components — see semantic.css.
+   ────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --v-color-white: #fff;
+  --v-color-black: #000;
+
+  --v-color-gray-50: oklch(98.5% 0.002 247.839);
+  --v-color-gray-100: oklch(96.7% 0.003 264.542);
+  --v-color-gray-200: oklch(92.8% 0.006 264.531);
+  --v-color-gray-300: oklch(87.2% 0.01 258.338);
+  --v-color-gray-400: oklch(70.7% 0.022 261.325);
+  --v-color-gray-500: oklch(55.1% 0.027 264.364);
+  --v-color-gray-600: oklch(44.6% 0.03 256.802);
+  --v-color-gray-700: oklch(37.3% 0.034 259.733);
+  --v-color-gray-800: oklch(27.8% 0.033 256.848);
+  --v-color-gray-900: oklch(21% 0.034 264.665);
+  --v-color-gray-950: oklch(13% 0.028 261.692);
+
+  --v-color-blue-50: oklch(97% 0.014 254.604);
+  --v-color-blue-100: oklch(93.2% 0.032 255.585);
+  --v-color-blue-300: oklch(80.9% 0.105 251.813);
+  --v-color-blue-500: oklch(62.3% 0.214 259.815);
+  --v-color-blue-600: oklch(54.6% 0.245 262.881);
+  --v-color-blue-700: oklch(48.8% 0.243 264.376);
+  --v-color-blue-900: oklch(37.9% 0.146 265.522);
+  --v-color-blue-950: oklch(28.2% 0.091 267.935);
+
+  --v-color-green-50: oklch(98.2% 0.018 155.826);
+  --v-color-green-100: oklch(96.2% 0.044 156.743);
+  --v-color-green-300: oklch(87.1% 0.15 154.449);
+  --v-color-green-500: oklch(72.3% 0.219 149.579);
+  --v-color-green-600: oklch(62.7% 0.194 149.214);
+  --v-color-green-700: oklch(52.7% 0.154 150.069);
+  --v-color-green-900: oklch(39.3% 0.095 152.535);
+  --v-color-green-950: oklch(26.6% 0.065 152.934);
+
+  --v-color-red-50: oklch(97.1% 0.013 17.38);
+  --v-color-red-100: oklch(93.6% 0.032 17.717);
+  --v-color-red-300: oklch(80.8% 0.114 19.571);
+  --v-color-red-600: oklch(57.7% 0.245 27.325);
+  --v-color-red-700: oklch(50.5% 0.213 27.518);
+  --v-color-red-900: oklch(39.6% 0.141 25.723);
+  --v-color-red-950: oklch(25.8% 0.092 26.042);
+
+  --v-color-yellow-50: oklch(98.7% 0.026 102.212);
+  --v-color-yellow-100: oklch(97.3% 0.071 103.193);
+  --v-color-yellow-300: oklch(90.5% 0.182 98.111);
+  --v-color-yellow-600: oklch(68.1% 0.162 75.834);
+  --v-color-yellow-700: oklch(55.4% 0.135 66.442);
+  --v-color-yellow-900: oklch(42.1% 0.095 57.708);
+  --v-color-yellow-950: oklch(28.6% 0.066 53.813);
+}
