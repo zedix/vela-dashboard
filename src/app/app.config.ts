@@ -6,6 +6,8 @@ import {
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
+import { OrdersFeed } from './core/stream/orders-feed';
+import { OrdersStream } from './core/stream/orders-stream';
 
 /**
  * Application configuration.
@@ -21,5 +23,8 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
+    // The dashboard depends on the OrdersFeed contract; the simulation backs it
+    // today. Swap this one line for a WebSocket implementation in production.
+    { provide: OrdersFeed, useExisting: OrdersStream },
   ],
 };
