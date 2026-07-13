@@ -14,42 +14,34 @@
 
   @if (order(); as current) {
     <section class="grid gap-2 border-t border-divider py-3" aria-label="Avancement">
-      <div class="flex items-baseline justify-between gap-3 text-sm">
-        <span class="text-secondary">Production</span>
-        <span class="tabular-nums">
-          {{ current.quantiteProduite }}
-          <span class="text-tertiary">/ {{ current.quantitePrevue }}</span>
-        </span>
-      </div>
+      <vela-order-detail-row label="Production">
+        {{ current.quantiteProduite }}
+        <span class="text-tertiary">/ {{ current.quantitePrevue }}</span>
+      </vela-order-detail-row>
       <progress
         class="v-progress"
         [value]="current.quantiteProduite"
         [max]="current.quantitePrevue"
       ></progress>
-      <div class="flex items-baseline justify-between gap-3 text-sm">
-        <span class="text-secondary">Taux de rebut</span>
-        <span class="tabular-nums">{{ formatRate(current.tauxRebut) }}</span>
-      </div>
-      <div class="flex items-baseline justify-between gap-3 text-sm">
-        <span class="text-secondary">Prix de vente unitaire</span>
-        <span class="tabular-nums">{{ formatPrice(current.prixVenteUnitaire) }}</span>
-      </div>
+      <vela-order-detail-row label="Taux de rebut">{{
+        formatRate(current.tauxRebut)
+      }}</vela-order-detail-row>
+      <vela-order-detail-row label="Prix de vente unitaire">
+        {{ formatPrice(current.prixVenteUnitaire) }}
+      </vela-order-detail-row>
     </section>
 
     <!-- Mini P&L: the computeMargin formula, told visually. -->
     <section class="grid gap-2 border-t border-divider py-3" aria-label="P&L">
-      <div class="flex items-baseline justify-between gap-3 text-sm">
-        <span class="text-secondary">CA (quantités bonnes)</span>
-        <span class="tabular-nums">{{ formatPrice(revenue()) }}</span>
-      </div>
-      <div class="flex items-baseline justify-between gap-3 text-sm">
-        <span class="pl-3 text-secondary">Coût matières</span>
-        <span class="tabular-nums">− {{ formatPrice(current.coutMatiere) }}</span>
-      </div>
-      <div class="flex items-baseline justify-between gap-3 text-sm">
-        <span class="pl-3 text-secondary">Coût main-d'œuvre</span>
-        <span class="tabular-nums">− {{ formatPrice(current.coutMainOeuvre) }}</span>
-      </div>
+      <vela-order-detail-row label="CA (quantités bonnes)">{{
+        formatPrice(revenue())
+      }}</vela-order-detail-row>
+      <vela-order-detail-row label="Coût matières" indent>
+        − {{ formatPrice(current.coutMatiere) }}
+      </vela-order-detail-row>
+      <vela-order-detail-row label="Coût main-d'œuvre" indent>
+        − {{ formatPrice(current.coutMainOeuvre) }}
+      </vela-order-detail-row>
       <!-- The margin total is the *result* line, deliberately distinct (not a
            repeated row): dashed rule, emphasis, sign-coloured value. -->
       <div

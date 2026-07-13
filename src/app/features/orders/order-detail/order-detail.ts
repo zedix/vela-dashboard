@@ -4,6 +4,7 @@ import { computeMargin, computeRevenue } from '../../../core/domain/pnl';
 import type { ManufacturingOrder } from '../../../core/models/order.model';
 import { Button, Drawer } from '@ui';
 import { formatPrice, formatRate, formatSignedPrice } from '@shared/utils';
+import { OrderDetailRow } from './order-detail-row';
 import { StatusBadge } from '../status-badge';
 
 /**
@@ -24,7 +25,7 @@ import { StatusBadge } from '../status-badge';
 @Component({
   selector: 'vela-order-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Button, Drawer, StatusBadge],
+  imports: [Button, Drawer, StatusBadge, OrderDetailRow],
   templateUrl: './order-detail.html',
 })
 export class OrderDetail {
