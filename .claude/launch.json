@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "port": 4200
+    },
+    {
+      "name": "prod",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4300", "--directory", "dist/vela-dashboard/browser"],
+      "port": 4300
+    }
+  ]
+}

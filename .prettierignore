@@ -3,3 +3,6 @@ package-lock.json
 
 # Build output
 /dist
+
+# Vendored agent tooling (skills) — not application code
+.agents/

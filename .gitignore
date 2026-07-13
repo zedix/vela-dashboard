@@ -36,6 +36,9 @@ yarn-error.log
 testem.log
 /typings
 
+# Claude Code local worktrees (agent scratch checkouts)
+.claude/worktrees/
+
 # System files
 .DS_Store
 Thumbs.db
