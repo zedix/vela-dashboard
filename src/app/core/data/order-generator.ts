@@ -29,6 +29,17 @@ const INITIAL_STATUS_WEIGHTS: readonly (readonly [OrderStatus, number])[] = [
   ['bloque', 0.15],
 ];
 
+/**
+ * Cost-model tuning — demo data: plausible orders of magnitude, not a real
+ * industrial cost model. Ranges are drawn per order; see `createOrderAt`.
+ */
+const QTY_STEP = 10; // planned quantities are round: 50–500 in steps of 10
+const VARIABLE_COST_RATIO: readonly [number, number] = [0.45, 0.85]; // variable cost as a share of the selling price
+const MATERIAL_SHARE: readonly [number, number] = [0.5, 0.75]; // material vs labour split of the variable cost
+const SETUP_COST_RATIO: readonly [number, number] = [0.03, 0.08]; // fixed setup as a fraction of the order's value
+const SETUP_MATERIAL_SHARE = 0.6; // how the fixed setup splits: 60% material / 40% labour
+const MAX_SCRAP_RATE = 0.15;
+
 const pickStatus = (): OrderStatus => weightedPick(INITIAL_STATUS_WEIGHTS);
 
 /**
@@ -42,13 +53,13 @@ const pickStatus = (): OrderStatus => weightedPick(INITIAL_STATUS_WEIGHTS);
  */
 function createOrderAt(seq: number, statut: OrderStatus, progress: number): ManufacturingOrder {
   const reference = `OF-2026-${String(seq).padStart(4, '0')}`;
-  const quantitePrevue = randomInt(5, 50) * 10;
+  const quantitePrevue = randomInt(5, 50) * QTY_STEP;
   const quantiteProduite = Math.round(quantitePrevue * progress);
   const prixVenteUnitaire = randomInt(10, 150);
 
-  const unitCostRatio = randomBetween(0.45, 0.85);
-  const materialShare = randomBetween(0.5, 0.75);
-  const setupCost = quantitePrevue * prixVenteUnitaire * randomBetween(0.03, 0.08);
+  const unitCostRatio = randomBetween(...VARIABLE_COST_RATIO);
+  const materialShare = randomBetween(...MATERIAL_SHARE);
+  const setupCost = quantitePrevue * prixVenteUnitaire * randomBetween(...SETUP_COST_RATIO);
 
   const variableCost = quantiteProduite * prixVenteUnitaire * unitCostRatio;
 
@@ -58,9 +69,11 @@ function createOrderAt(seq: number, statut: OrderStatus, progress: number): Manu
     produit: pick(PRODUCTS),
     quantitePrevue,
     quantiteProduite,
-    coutMatiere: Math.round(variableCost * materialShare + setupCost * 0.6),
-    coutMainOeuvre: Math.round(variableCost * (1 - materialShare) + setupCost * (1 - 0.6)),
-    tauxRebut: randomBetween(0, 0.15),
+    coutMatiere: Math.round(variableCost * materialShare + setupCost * SETUP_MATERIAL_SHARE),
+    coutMainOeuvre: Math.round(
+      variableCost * (1 - materialShare) + setupCost * (1 - SETUP_MATERIAL_SHARE),
+    ),
+    tauxRebut: randomBetween(0, MAX_SCRAP_RATE),
     prixVenteUnitaire,
     statut,
   };
