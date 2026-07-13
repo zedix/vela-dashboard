@@ -1,7 +1,17 @@
-<header class="app-header">
-  <a class="app-brand" routerLink="/">Vela</a>
-</header>
+<div class="mx-auto max-w-[1080px] px-5 pb-12">
+  <header
+    class="sticky top-0 z-10 mb-3 flex items-center gap-7 border-b border-default bg-surface/88 py-4 backdrop-blur-[8px]"
+  >
+    <a class="inline-flex items-center gap-2.5" routerLink="/">
+      <vela-logo />
+      <span
+        class="rounded-md bg-fill-neutral-subtle px-2 py-0.5 text-xs uppercase tracking-[0.04em] text-secondary"
+        >P&amp;L temps réel</span
+      >
+    </a>
+  </header>
 
-<main>
-  <router-outlet />
-</main>
+  <main class="pt-3">
+    <router-outlet />
+  </main>
+</div>

@@ -1,0 +1,10 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Logo — inline SVG coloured via `currentColor`
+   The mark follows the text token, so it stays legible on the pinned-dark
+   surface (and would follow a light scheme for free). `inline-flex` drops
+   the inline-SVG descender gap.
+   ────────────────────────────────────────────────────────────────────── */
+:host {
+  display: inline-flex;
+  color: var(--v-color-text-primary);
+}

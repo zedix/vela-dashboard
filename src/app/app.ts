@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
+import { Logo } from '@ui';
+
 /**
  * App shell: brand bar + routing area.
  *
@@ -10,7 +12,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'vela-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink],
+  host: { class: 'block' },
+  imports: [RouterOutlet, RouterLink, Logo],
   templateUrl: './app.html',
 })
 export class App {}

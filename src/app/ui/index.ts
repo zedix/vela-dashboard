@@ -1,7 +1,7 @@
 /**
  * Design-system public API. Import primitives from `@ui`:
  *
- *   import { Badge, Button, Drawer } from '@ui';
+ *   import { Badge, Button, CloseButton, Drawer } from '@ui';
  *
  * Re-exports only — the primitives are side-effect-free class definitions, so
  * esbuild tree-shakes anything not referenced in a component's `imports`. The
@@ -18,5 +18,7 @@ export { CloseButton } from './close-button/close-button';
 export type { CloseButtonAppearance } from './close-button/close-button';
 
 export { Drawer } from './drawer/drawer';
+
+export { Logo } from './logo/logo';
 
 export { Progress } from './progress/progress';
