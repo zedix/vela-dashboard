@@ -1,10 +1,19 @@
-# Vela — Real-time manufacturing orders dashboard
+<p align="center">
+  <img src="public/assets/favicons/icon-512.png" alt="Vela" width="44" height="44" />
+</p>
 
-![Angular](https://img.shields.io/badge/Angular-22_·_zoneless-dd0031?logo=angular&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-6.0_·_strict-3178c6?logo=typescript&logoColor=white)
-![RxJS](https://img.shields.io/badge/RxJS-7.8-b7178c?logo=reactivex&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?logo=tailwindcss&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-14_tests-6da13f?logo=vitest&logoColor=white)
+<h1 align="center">Real-time manufacturing orders dashboard</h1>
+
+<p align="center">
+  <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-b52a37?style=flat" />
+  <img alt="TypeScript 6.0" src="https://img.shields.io/badge/TypeScript-6.0-2f6fb0?style=flat" />
+  <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-3a7d99?style=flat" />
+  <img alt="14 tests" src="https://img.shields.io/badge/tests-14_passing-3f8a4d?style=flat" />
+</p>
+
+<p align="center">
+  <img src="docs/dashboard.png" alt="Vela — real-time manufacturing orders dashboard" width="820" />
+</p>
 
 Fullstack Engineer case study: a **real-time** P&L dashboard for a factory's
 manufacturing orders (French: « ordres de fabrication », OF) — simulated feed
