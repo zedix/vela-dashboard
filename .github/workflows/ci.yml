@@ -1,0 +1,39 @@
+name: ✅ CI
+
+# Guardrails on every push to main and every pull request: install from the
+# lockfile, then run the same checks a developer runs locally (lint, format,
+# typecheck-via-build, tests). Green here == green there.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Set up Node
+        uses: actions/setup-node@v4
+        with:
+          # LTS, within the engines range (^22.22.3 || ^24.15.0 || >=26).
+          node-version: 24
+          cache: npm
+
+      - name: 📦 Install
+        run: npm ci
+
+      - name: 🔍 Lint
+        run: npm run lint
+
+      - name: 💅 Format
+        run: npm run format:check
+
+      # `ng build` is the real typecheck: ngtsc enforces strict + strictTemplates.
+      - name: 🏗️ Build
+        run: npm run build
+
+      - name: 🧪 Test
+        run: npm test

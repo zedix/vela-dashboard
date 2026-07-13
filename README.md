@@ -35,6 +35,8 @@ npm run lint         # ESLint (angular-eslint flat config)
 npm run format:check # Prettier check (use `npx prettier --write .` to fix)
 ```
 
+These four run in CI (GitHub Actions) on every push and pull request.
+
 ## 2. Architecture
 
 One-way flow with a single RxJS→signals seam:
@@ -147,7 +149,7 @@ Ordered by how soon a real product would need it.
   Angular's built-in `$localize` once a second locale exists.
 - **E2E smoke test**: unit tests cover the logic, live behaviour was verified
   manually in the browser. _How_: one Playwright scenario — load, filter,
-  sort, open the detail panel, assert aggregates change.
+  sort, open the detail panel, assert aggregates change — run in CI.
 - **Dev-only npm advisories (2 low)**: `npm audit` flags two low-severity
   issues in `@angular/build` (a dev-only build tool, transitive via
   `@babel/core` — GHSA-4x5r-pxfx-6jf8) — never in the shipped bundle. Left

@@ -415,7 +415,7 @@ alternatives, and why, in a few lines.
   understanding" disqualifier — the agent is driven by written conventions and every
   choice is recorded with its alternatives.
 
-### 5.5 Commit history + quality tooling (hooks, ESLint)
+### 5.5 Commit history + quality tooling (hooks, ESLint, CI)
 
 - **Choice**: atomic commits in build order (core → feed → store → UI → docs), build +
   tests green at each. Tooling, in layers:
@@ -427,14 +427,16 @@ alternatives, and why, in a few lines.
     `no-floating-promises`, guards the subscription/promise-leak class this real-time
     app cares about. Not the type-checked presets (`no-unsafe-*`) — noisy against
     strictly-typed code that `tsc` already covers.
+  - **CI** (GitHub Actions): `npm ci` → lint → `format:check` → build (typecheck) →
+    test, on push and PR.
 - **A false positive, handled cleanly**: the native `<dialog>` backdrop-dismiss click
   trips two template a11y rules — keyboard dismissal is already native (Esc) and focus
   is trapped by `showModal()`, so those rules are disabled **locally** on that line,
   with a comment.
 - **Why**: the brief reads the history — the order tells the story, the convention
   keeps it parseable. The hooks keep every commit's message and formatting clean by
-  construction; ESLint catches what the compiler can't (template a11y, Angular
-  structure).
+  construction, ESLint catches what the compiler can't (template a11y, Angular
+  structure), and CI replays those guardrails on every push and PR.
 
 ### 5.6 README hub + `docs/` (no monolithic README)
 
@@ -444,8 +446,8 @@ alternatives, and why, in a few lines.
 - **Guardrail (the brief's literal requirements)**: they stay _in_ the README, in full
   — the `npm install && npm start` instructions, the **signals vs RxJS** rationale, and
   the "deliberately left out" list. Only long developments are externalised.
-- **Badges**: static only — a dynamic status badge is added only once its source is
-  live on the remote (a badge that 404s is worse than none).
+- **Badges**: static only — the CI badge is dynamic and added only once the workflow
+  runs on the remote (a badge that 404s is worse than none).
 
 ### 5.7 Single Vite version, pinned to the latest (`overrides`)
 
