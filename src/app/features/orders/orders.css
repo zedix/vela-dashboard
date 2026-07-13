@@ -84,6 +84,7 @@ td {
 }
 
 tbody tr {
+  position: relative; /* anchors the row-open overlay */
   cursor: pointer;
   /* Hover + the fade-out half of the update highlight share the row's
      background-color transition (decoupled later, once motion tokens exist). */
@@ -96,6 +97,27 @@ tbody tr:hover {
 
 tbody tr:last-child td {
   border-bottom: 0;
+}
+
+/* Opens the detail: a real <button> for keyboard/AT (Enter + Space native),
+   stretched over the whole row via ::after so the mouse target is unchanged. */
+.row-open {
+  all: unset;
+  cursor: pointer;
+  font: inherit;
+}
+
+.row-open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* Focus ring on the stretched overlay → it hugs the whole row, not just the
+   reference cell. */
+.row-open:focus-visible::after {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: -2px; /* drawn inside the row bounds */
 }
 
 /* Instant flash on update (no transition in), soft fade when the store drops

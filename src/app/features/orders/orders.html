@@ -56,10 +56,11 @@
     <thead>
       <tr>
         @for (column of columns; track column.key) {
-          <th [attr.aria-sort]="ariaSort(column.key)" [class.num]="column.numeric">
+          @let sortState = ariaSort(column.key);
+          <th [attr.aria-sort]="sortState" [class.num]="column.numeric">
             <button type="button" class="sort" (click)="store.toggleSort(column.key)">
               {{ column.label }}
-              @switch (ariaSort(column.key)) {
+              @switch (sortState) {
                 @case ('ascending') {
                   <span aria-hidden="true">▲</span>
                 }
@@ -74,17 +75,21 @@
     </thead>
     <tbody>
       @for (row of rows(); track row.order.id) {
-        <tr
-          [class.updated]="store.recentlyUpdated().has(row.order.id)"
-          (click)="store.select(row.order.id)"
-        >
+        <tr [class.updated]="store.recentlyUpdated().has(row.order.id)">
           <!-- Cells iterate the same COLUMNS as the header, so their order and
                count can't drift from it; each column's rendering stays explicit. -->
           @for (column of columns; track column.key) {
             <td [class.num]="column.numeric">
               @switch (column.key) {
                 @case ('reference') {
-                  <span class="font-mono text-xs">{{ row.order.reference }}</span>
+                  <button
+                    type="button"
+                    class="row-open font-mono text-xs"
+                    [attr.aria-label]="'Ouvrir le détail ' + row.order.reference"
+                    (click)="store.select(row.order.id)"
+                  >
+                    {{ row.order.reference }}
+                  </button>
                 }
                 @case ('produit') {
                   {{ row.order.produit }}
